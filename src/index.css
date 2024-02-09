@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .toolbar-button {
+    @apply w-10 h-10 border-2 rounded-full transition border-indigo-800 enabled:hover:scale-90 disabled:scale-75 disabled:text-indigo-800  enabled:border-transparent;
+  }
+
+  .ui-bg {
+    @apply bg-white rounded-2xl bg-opacity-60 backdrop-blur-sm;
+  }
+
+  .divider {
+    @apply bg-black bg-opacity-30;
+  }
+
+  .slider {
+    @apply w-full h-1 bg-black rounded-lg appearance-none cursor-pointer accent-indigo-800;
+  }
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" class="w-full h-full">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="./index.css" rel="stylesheet">
+</head>
+
+<body class="relative w-full h-full overflow-hidden">
+  <canvas id="lenia-canvas" class="w-full h-full "
+    style="image-rendering: pixelated; image-rendering: crisp-edges;"></canvas>
+
+  <!-- bottom toolbar -->
+  <div class="ui-bg flex absolute bottom-2 px-10 p-3 items-center left-1/2 -translate-x-1/2 ">
+    <button id="pause-button" class="w-10 h-10 group border-2 rounded-full transition border-indigo-800 enabled:hover:scale-90 disabled:scale-75 disabled:text-indigo-800  enabled:border-transparent" disabled>
+      <svg viewBox="0 0 24 24" fill="currentColor" class="group-disabled:scale-75">
+        <path fill-rule="evenodd"
+          d="M6.75 5.25a.75.75 0 0 1 .75-.75H9a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H7.5a.75.75 0 0 1-.75-.75V5.25Zm7.5 0A.75.75 0 0 1 15 4.5h1.5a.75.75 0 0 1 .75.75v13.5a.75.75 0 0 1-.75.75H15a.75.75 0 0 1-.75-.75V5.25Z"
+          clip-rule="evenodd" />
+      </svg>
+    </button>
+
+    <span class="w-3"></span>
+
+    <button id="play-button" class="group toolbar-button">
+      <svg viewBox="0 0 24 24" fill="currentColor" class="group-disabled:scale-75">
+        <path fill-rule="evenodd"
+          d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+          clip-rule="evenodd" />
+      </svg>
+    </button>
+
+    <div class="divider h-7 w-[1px] mx-5"></div>
+
+    <button id="reload-button" class="group toolbar-button">
+      <svg viewBox="0 0 24 24" fill="currentColor" class="group-disabled:scale-75">
+        <path fill-rule="evenodd" d="M4.755 10.059a7.5 7.5 0 0 1 12.548-3.364l1.903 1.903h-3.183a.75.75 0 1 0 0 1.5h4.992a.75.75 0 0 0 .75-.75V4.356a.75.75 0 0 0-1.5 0v3.18l-1.9-1.9A9 9 0 0 0 3.306 9.67a.75.75 0 1 0 1.45.388Zm15.408 3.352a.75.75 0 0 0-.919.53 7.5 7.5 0 0 1-12.548 3.364l-1.902-1.903h3.183a.75.75 0 0 0 0-1.5H2.984a.75.75 0 0 0-.75.75v4.992a.75.75 0 0 0 1.5 0v-3.18l1.9 1.9a9 9 0 0 0 15.059-4.035.75.75 0 0 0-.53-.918Z" clip-rule="evenodd" />
+      </svg>    
+    </button>
+
+    <span class="w-3"></span>
+
+    <button id="settings-button" class="group toolbar-button">
+      <svg viewBox="0 0 24 24" fill="currentColor" class="group-disabled:scale-75">
+        <path d="M18.75 12.75h1.5a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM12 6a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 6ZM12 18a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 12 18ZM3.75 6.75h1.5a.75.75 0 1 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5ZM5.25 18.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 0 1.5ZM3 12a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 3 12ZM9 3.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM12.75 12a2.25 2.25 0 1 1 4.5 0 2.25 2.25 0 0 1-4.5 0ZM9 15.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" />
+      </svg>      
+    </button>
+  </div>
+
+  <!-- settings dialog -->
+  <div id="settings-dialog" class="ui-bg absolute right-0 p-5 top-1/2 -translate-y-1/2 opacity-0 transition translate-x-full open:opacity-100 open:-translate-x-2">
+    <div class="relative w-72">
+      <div class="flex font-semibold text-lg">
+        Settings
+        <span class="flex-1"></span>
+        <button id="close-settings-button" class="transition hover:scale-90">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+            <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+  
+      <div class="h-4"></div>
+  
+      <div class="flex items-center py-2 px-2">
+        <svg viewBox="0 -960 960 960" class="w-8 h-8">
+          <path d="M600-160q-134 0-227-93t-93-227q0-133 93-226.5T600-800q133 0 226.5 93.5T920-480q0 134-93.5 227T600-160Zm0-80q100 0 170-70t70-170q0-100-70-170t-170-70q-100 0-170 70t-70 170q0 100 70 170t170 70Zm91-91 57-57-108-108v-144h-80v177l131 132ZM80-600v-80h160v80H80ZM40-440v-80h200v80H40Zm40 160v-80h160v80H80Zm520-200Z"/>
+        </svg>
+        <div class="w-7"></div>
+        <div class="flex flex-col relative w-full">
+          <label for="speed-range-input" class="text-md">Speed</label>
+          <div class="h-3"></div>
+          <input id="speed-range-input" type="range" min="0" max="300" value="220" class="slider">
+        </div>
+      </div>
+
+      <div class="h-4"></div>
+
+      <div class="flex items-center py-2 px-2">
+        <svg viewBox="0 -960 960 960" class="w-8 h-8">
+          <path d="M120-120v-200h80v120h120v80H120Zm520 0v-80h120v-120h80v200H640ZM120-640v-200h200v80H200v120h-80Zm640 0v-120H640v-80h200v200h-80Z"/>
+        </svg>
+        <div class="w-7"></div>
+        <div class="flex flex-col relative w-full">
+          <label for="resolution-range-input" class="text-md">Resolution</label>
+          <div class="h-3"></div>
+          <input id="resolution-range-input" type="range" min="0" max="100" value="50" class="slider" disabled>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/lenia.js" type="module"></script>
+</body>
