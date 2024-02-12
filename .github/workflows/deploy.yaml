@@ -3,7 +3,7 @@ name: Deploy static content to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
+    branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -34,13 +34,14 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Install npm dependencies
         run: npm ci
+      - name: Check types
+        run: npm run check
       - name: Build
-        run: npx parcel build src/index.html --public-url="https://sbntt.github.io/alife-simulator/"
+        run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: 'dist'
+          path: dist
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

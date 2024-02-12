@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "parcel build src/index.html --public-url=\"https://sbntt.github.io/alife-simulator/\"",
+    "dev": "parcel src/index.html",
+    "check": "tsc --noEmit"
   },
   "keywords": [],
   "author": "SBNTT",
@@ -12,6 +14,7 @@
     "@parcel/transformer-glsl": "^2.11.0",
     "parcel": "^2.11.0",
     "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
   }
 }

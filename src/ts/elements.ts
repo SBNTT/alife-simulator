@@ -1,0 +1,9 @@
+export const canvas = document.getElementById("lenia-canvas") as HTMLCanvasElement;
+export const playButton = document.getElementById("play-button") as HTMLButtonElement;
+export const pauseButton = document.getElementById("pause-button") as HTMLButtonElement;
+export const reloadButton = document.getElementById("reload-button") as HTMLButtonElement;
+export const settingsButton = document.getElementById("settings-button") as HTMLButtonElement;
+export const closeSettingsButton = document.getElementById("close-settings-button") as HTMLButtonElement;
+export const settingsDialog = document.getElementById("settings-dialog");
+export const speedRangeInput = document.getElementById("speed-range-input") as HTMLInputElement;
+export const resolutionRangeInput = document.getElementById("resolution-range-input") as HTMLInputElement;
