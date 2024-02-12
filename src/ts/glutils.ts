@@ -1,5 +1,7 @@
+import {inlineThrow} from "./utils";
+
 export function createShaderProgram(
-  gl: WebGL2RenderingContext,
+  gl: WebGL2RenderingContext | WebGLRenderingContext,
   vertexShaderSource: string,
   fragmentShaderSource: string,
 ): WebGLProgram {
@@ -19,8 +21,11 @@ export function createShaderProgram(
   return program;
 }
 
-export function createFramebuffer(gl: WebGL2RenderingContext, texture: WebGLTexture): WebGLFramebuffer {
-  const framebuffer = gl.createFramebuffer();
+export function createFramebuffer(
+  gl: WebGL2RenderingContext | WebGLRenderingContext,
+  texture: WebGLTexture,
+): WebGLFramebuffer {
+  const framebuffer = gl.createFramebuffer() || inlineThrow("Failed to create a framebuffer");
   gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
   gl.framebufferTexture2D(
     gl.FRAMEBUFFER,
@@ -35,7 +40,7 @@ export function createFramebuffer(gl: WebGL2RenderingContext, texture: WebGLText
 }
 
 export function createRandomTexture(
-  gl: WebGL2RenderingContext,
+  gl: WebGL2RenderingContext | WebGLRenderingContext,
   width: number,
   height: number,
   texture: WebGLTexture | null = null,
@@ -69,9 +74,12 @@ export function createRandomTexture(
   return texture;
 }
 
-export function createTexture(gl: WebGL2RenderingContext, width: number, height: number): WebGLTexture {
-  const texture =
-    gl.createTexture() || inlineThrow("Failed to create a texture");
+export function createTexture(
+  gl: WebGL2RenderingContext | WebGLRenderingContext,
+  width: number,
+  height: number,
+): WebGLTexture {
+  const texture = gl.createTexture() || inlineThrow("Failed to create a texture");
 
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.texImage2D(
@@ -94,7 +102,10 @@ export function createTexture(gl: WebGL2RenderingContext, width: number, height:
   return texture;
 }
 
-export function configureQuadVertices(gl: WebGL2RenderingContext, programLocation: number) {
+export function configureQuadVertices(
+  gl: WebGL2RenderingContext | WebGLRenderingContext,
+  programLocation: number,
+) {
   const buffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
   const vertices = new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]);
@@ -103,10 +114,12 @@ export function configureQuadVertices(gl: WebGL2RenderingContext, programLocatio
   gl.vertexAttribPointer(programLocation, 2, gl.FLOAT, false, 0, 0);
 }
 
-function compileShader(context: WebGL2RenderingContext, text: string, type: number): WebGLShader {
-  const shader =
-    context.createShader(type) ||
-    inlineThrow(`Failed to create a shader of type $type`);
+function compileShader(
+  context: WebGL2RenderingContext | WebGLRenderingContext,
+  text: string,
+  type: number,
+): WebGLShader {
+  const shader = context.createShader(type) || inlineThrow(`Failed to create a shader of type $type`);
   context.shaderSource(shader, text);
   context.compileShader(shader);
 
@@ -117,8 +130,4 @@ function compileShader(context: WebGL2RenderingContext, text: string, type: numb
   }
 
   return shader;
-}
-
-function inlineThrow(message: string): never {
-  throw new Error(message);
 }
